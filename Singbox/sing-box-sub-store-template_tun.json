@@ -121,6 +121,16 @@
         "172.18.0.1/30",
         "fdfe:dcba:9876::1/126"
       ],
+      "exclude_package": [
+        "com.tencent.mm",
+        "com.tencent.wemeet.app",
+        "com.tencent.wework",
+        "com.chinamworld.main",
+        "cn.com.hkgt.gasapp",
+        "com.miui.weather2",
+        "com.autonavi.minimap",
+        "com.baidu.BaiduMap"
+      ],
       "platform": {
         "http_proxy": {
           "enabled": true,
