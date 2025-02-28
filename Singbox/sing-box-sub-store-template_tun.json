@@ -21,16 +21,16 @@
     "dns": {
     "servers": [
       {
-				"tag": "google_DoH-dns",
-				"address": "https://dns.google/dns-query",
-				"detour": "Proxy",
-				"client_subnet": "1.0.1.0"
-			},
+        "tag": "google_DoH-dns",
+        "address": "https://dns.google/dns-query",
+        "detour": "Proxy",
+        "client_subnet": "1.0.1.0"
+      },
       {
-				"tag": "tencent-dns",
-				"address": "119.29.29.29",
-				"detour": "direct"
-			},
+        "tag": "tencent-dns",
+        "address": "119.29.29.29",
+        "detour": "direct"
+      },
       {
         "tag": "remote",
         "address": "fakeip"
@@ -145,6 +145,44 @@
       ],
       "default": "direct",
       "interrupt_exist_connections": true
+    },
+    {
+      "tag": "📢 谷歌 FCM",
+      "type": "selector",
+      "outbounds": [
+        "direct",
+        "Proxy"
+      ],
+      "default": "direct",
+      "interrupt_exist_connections": true
+    },
+    {
+      "tag": "❇️ 节点测速",
+      "type": "selector",
+      "outbounds": [
+        "direct",
+        "Proxy"
+      ],
+      "default": "direct",
+      "interrupt_exist_connections": true
+    },
+    {
+      "tag": "🏡 Home",
+      "type": "selector",
+      "outbounds": [
+        "direct"
+      ],
+      "default": "direct",
+      "interrupt_exist_connections": true
+    },
+    {
+      "tag": "🏡 OpenWrt",
+      "type": "selector",
+      "outbounds": [
+        "direct"
+      ],
+      "default": "direct",
+      "interrupt_exist_connections": true
     }
   ],
   "route": {
@@ -204,6 +242,22 @@
         "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/cn.srs",
         "download_detour": "Proxy",
         "update_interval": "10d"
+      },
+      {
+        "type": "remote",
+        "tag": "googlefcm_site-rule",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geosite/googlefcm.srs",
+        "download_detour": "Proxy",
+        "update_interval": "10d"
+      },
+      {
+        "type": "remote",
+        "tag": "speedtest_site-rule",
+        "format": "binary",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geosite/speedtest.srs",
+        "download_detour": "Proxy",
+        "update_interval": "10d"
       }
     ],
     "rules": [
@@ -234,6 +288,54 @@
         "outbound": "Proxy"
       },
       {
+        "source_ip_cidr": [
+          "192.168.6.0/24"
+        ],
+        "source_ip_is_private": true,
+        "ip_cidr": [
+          "192.168.6.0/24"
+        ],
+        "outbound": "🏡 Home"
+      },
+      {
+        "source_ip_cidr": [
+          "192.168.50.0/24"
+        ],
+        "source_ip_is_private": true,
+        "ip_cidr": [
+          "192.168.50.0/24"
+        ],
+        "outbound": "🏡 OpenWrt"
+      },
+      {
+        "domain": [
+          "injections.adguard.org",
+          "local.adguard.org"
+        ],
+        "domain_suffix": [
+          "dyndns.com",
+          "ldqk.org",
+          "ldqk.xyz",
+          "masuit.com",
+          "spartanhost.net",
+          "timanetworks.com",
+          "test-ipv6.com",
+          "8899889.xyz",
+          "gimytv.app",
+          "9988998.xyz"
+        ],
+        "outbound": "direct"
+      },
+      {
+        "domain_suffix": [
+          "avgle.com",
+          "teamviewer.com",
+          "msftconnecttest.com",
+          "browserleaks.com"
+        ],
+        "outbound": "Proxy"
+      },
+      {
         "rule_set": [
           "alibaba",
           "category-games@cn"
@@ -257,6 +359,18 @@
           }
         ],
         "action": "reject"
+      },
+      {
+        "rule_set": [
+          "speedtest_site-rule"
+        ],
+        "outbound": "❇️ 节点测速"
+      },
+      {
+        "rule_set": [
+          "googlefcm_site-rule"
+        ],
+        "outbound": "📢 谷歌 FCM"
       },
       {
         "rule_set": [
