@@ -21,15 +21,16 @@
     "dns": {
     "servers": [
       {
-        "tag": "google_DoH-dns",
-        "address": "https://dns.google/dns-query",
-        "detour": "Proxy",
-        "client_subnet": "1.0.1.0"
-      },
-      {
         "tag": "tencent-dns",
         "address": "119.29.29.29",
         "detour": "direct"
+      },
+      {
+        "tag": "google_DoH-dns",
+        "address": "https://dns.google/dns-query",
+        "address_resolver": "tencent-dns",
+        "detour": "Proxy",
+        "client_subnet": "1.0.1.0"
       },
       {
         "tag": "remote",
